@@ -2,9 +2,24 @@ import express, {Request, Response} from "express";
 import User from "../models/user";
 import jwt from 'jsonwebtoken'
 import userAuth from "../middleware.ts/userAuth";
-import Content from "../models/content";
+import Content, { Link } from "../models/content";
 const userRouter = express.Router()
 
+
+function random(len : number){
+    const option = "qwertyuiopasddghhzlxvbbnm12345678"
+    let length = option.length;
+
+    let ans = "";
+
+    for(let i = 0; i < len; i++){
+        ans = ans + option[Math.floor((Math.random() * length))]
+    }
+
+    return ans;
+}
+
+random(0)
 
 userRouter.post("/signup", async (req, res) => {
     const {
@@ -90,6 +105,68 @@ userRouter.post("/content", userAuth ,async(req: Request, res: Response)=> {
     }
 })
 
+
+userRouter.get("/content", userAuth, async(req: Request, res: Response)=> {
+    const id = req.user;
+    const content = await Content.find({userId: id});
+
+    if(content.length == 0){
+        res.send("no content")
+        return
+    }
+    res.send(content)
+})
+
+
+
+userRouter.post("/link", userAuth, async(req: Request, res: Response) => {
+    const share = req.body.share;
+
+    if(share){
+
+        const existing = await Link.findOne({
+            userId: req.user
+        })
+        if(existing){
+            res.send("Sharing is already on")
+            return;
+        }
+
+        const hash = random(20);
+
+        const link = new Link({
+            hash: hash,
+            userId: req.user
+        })
+
+        await link.save();
+        res.send(link)
+    }else{
+        await Link.deleteOne({userId: req.user});
+        res.send("sharable link off")
+    }
+})
+
+
+userRouter.get("/link/:shareLink", async(req, res) => {
+    const hash = req.params.shareLink;
+
+    const link = await Link.findOne({
+        hash: hash
+    })
+
+    if(link){
+        const userId = link.userId;
+
+        const content = await Content.find({
+            userId
+        }).populate("userId", "username")
+
+        res.send(content)
+    }else{
+        res.send("link is expired")
+    }
+})
 
 
 export default userRouter;
