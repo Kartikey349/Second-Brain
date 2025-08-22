@@ -1,7 +1,8 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import User from "../models/user";
 import jwt from 'jsonwebtoken'
 import userAuth from "../middleware.ts/userAuth";
+import Content from "../models/content";
 const userRouter = express.Router()
 
 
@@ -31,8 +32,8 @@ userRouter.post("/signup", async (req, res) => {
         res.json({
             user
         })
-    }catch(err){
-        res.status(500).send("ERROR: " + err)
+    }catch(err: any){
+        res.status(500).send("ERROR: " + err.message)
     }
 })
 
@@ -53,7 +54,7 @@ userRouter.post("/login", async (req,res) => {
             res.status(401).send("No user found");
             return;
         }else{
-            const token = jwt.sign(username, "SecondBrain");
+            const token = jwt.sign({id: user._id}, "SecondBrain");
             res.cookie("token", token)
         }
 
@@ -64,8 +65,29 @@ userRouter.post("/login", async (req,res) => {
 })
 
 
-userRouter.get("/content", userAuth ,async(req, res)=> {
-    res.send("inside content")
+userRouter.post("/content", userAuth ,async(req: Request, res: Response)=> {
+    const id = req.user;
+    const {
+        type,
+        title,
+        link,
+        tag,
+    } = req.body;
+    try{ 
+        const content = new Content({
+            type,
+            title,
+            link,
+            tag,
+            userId: id
+        })
+
+        await content.save();
+        res.send(content)
+
+    }catch(err: any){
+        res.status(411).send("ERROR: " + err.message)
+    }
 })
 
 

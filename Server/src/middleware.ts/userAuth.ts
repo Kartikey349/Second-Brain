@@ -21,7 +21,7 @@ const userAuth = (req: Request, res: Response, next: NextFunction) => {
         }
         const decoded = jwt.verify(token, "SecondBrain");
         
-        req.user = (decoded as JwtPayload).username;
+        req.user = (decoded as JwtPayload).id;
         next();
     }catch(err){
         throw new Error("ERROR: " + err)
