@@ -1,17 +1,19 @@
+import type { ReactElement } from "react";
+
 type variantType = "primary" | "secondary"
 
 interface ButtonInterface {
     variant: variantType;
     size: "sm" | "md" | "lg";
     text:  string;
-    startIcon?: any;
+    startIcon?: ReactElement;
     endicon?: any;
     onclick: () => void;
 }
 
 const variantOption = {
-    primary: "bg-purple-600 text-white",
-    secondary: "bg-gray-300 text-purple-600"
+    primary: "bg-purple-700 text-white",
+    secondary: "bg-gray-300 text-purple-700"
 }
 
 const size = {
@@ -28,7 +30,9 @@ const Button = (props: ButtonInterface) => {
   return (
 
     <button className={`${variantOption[props.variant]} ${size[props.size]} ${defaultProp.rounded}`}>
-        {props.text}
+        <div className="flex items-center gap-1">
+            {props.startIcon} {props.text} {props.endicon}
+        </div>
     </button>
   )
 }
