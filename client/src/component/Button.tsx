@@ -8,7 +8,7 @@ interface ButtonInterface {
     text:  string;
     startIcon?: ReactElement;
     endicon?: any;
-    onclick: () => void;
+    onclick?: () => void;
 }
 
 const variantOption = {
@@ -17,19 +17,16 @@ const variantOption = {
 }
 
 const size = {
-    sm: "py-1 px-2",
-    md: "py-2 px-4",
-    lg: "py-4 px-6"
+    sm: "py-1 px-2 rounded-sm",
+    md: "py-2 px-4 rounded-md",
+    lg: "py-4 px-6 rounded-md"
 }
 
-const defaultProp = {
-    rounded: "rounded-sm"
-}
 
 const Button = (props: ButtonInterface) => {
   return (
 
-    <button className={`${variantOption[props.variant]} ${size[props.size]} ${defaultProp.rounded}`}>
+    <button className={`${variantOption[props.variant]} ${size[props.size]} cursor-pointer flex justify-center`}>
         <div className="flex items-center gap-1">
             {props.startIcon} {props.text} {props.endicon}
         </div>
