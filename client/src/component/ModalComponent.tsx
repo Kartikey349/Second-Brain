@@ -9,8 +9,8 @@ if(open)
             <div className="w-full flex justify-end" onClick={() => close(false)}>
                 <CrossIcon />
             </div>
-            <Input placeholder={"Title"} />
-            <Input placeholder={"Link"} />
+            <Input onChange={(e) => {console.log(e.target.value)}} placeholder={"Title"} />
+            <Input onChange={(e) => e.target.value} placeholder={"Link"} />
             <div className="mt-2 flex w-full justify-center"></div>
 
             <Button variant="primary" size="md" text="Submit" />
@@ -21,11 +21,12 @@ if(open)
 
 interface InputProps {
     placeholder: string
+    onChange: (e: any) => void 
 }
 
 
 const Input = (props: InputProps) => {
-   return <input type="text" className="p-2 bg-white my-2 rounded-sm" placeholder={props.placeholder} />
+   return <input type="text" onChange={props.onChange} className="p-2 bg-white my-2 rounded-sm" placeholder={props.placeholder} />
 }
 
 export default ModalComponent;

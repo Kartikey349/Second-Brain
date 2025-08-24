@@ -12,8 +12,8 @@ interface ButtonInterface {
 }
 
 const variantOption = {
-    primary: "bg-purple-700 text-white",
-    secondary: "bg-gray-300 text-purple-700"
+    primary: "bg-purple-800 text-white",
+    secondary: "bg-gray-300 text-purple-800"
 }
 
 const size = {
