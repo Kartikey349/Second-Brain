@@ -69,7 +69,9 @@ userRouter.post("/login", async (req,res) => {
             res.status(401).send("No user found");
             return;
         }else{
-            const token = jwt.sign({id: user._id}, "SecondBrain");
+            const token = jwt.sign({id: user._id}, "SecondBrain", {
+                expiresIn: "1d"
+            });
             res.cookie("token", token)
         }
 

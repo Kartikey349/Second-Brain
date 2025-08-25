@@ -4,10 +4,18 @@ import userRouter from "./routes/user"
 import cookieParser from 'cookie-parser'
 import dotenv from "dotenv";
 dotenv.config();
+import cors from "cors"
 
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+
+
+app.use(cors({
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}))
 
 
 app.use("/user", userRouter)
