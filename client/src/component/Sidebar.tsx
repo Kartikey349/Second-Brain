@@ -1,8 +1,34 @@
 import LogoIcon from "../icon/LogoIcon"
 import TwitterIcon from "../icon/TwitterIcon"
 import YoutubeIcon from "../icon/YoutubeIcon"
+import { BACKEND_URL } from "../config"
+import axios from "axios"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 const Sidebar = () => {
+
+  const navigate = useNavigate()
+  const user = useSelector((store: any) => store.user)
+
+  const fetchContent = async () => {
+    if(user) return;
+    try{const content =  await axios.get(BACKEND_URL + "/user/content", {
+      withCredentials: true
+    })
+  }catch(err: any){
+    console.log(err.response.data)
+    if(err.status == 401){ 
+      navigate("/login")
+    }
+  }
+  }
+
+  useEffect(() => {
+    fetchContent()
+  }, [])
+
   return (
     <div className="w-80 p-2 pl-4 border-r-1 border-gray-400">
       <div className="flex items-center gap-2">
