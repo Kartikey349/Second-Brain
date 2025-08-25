@@ -5,18 +5,23 @@ import { BACKEND_URL } from "../config"
 import axios from "axios"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { addContent } from "../utils/contentSlice"
 
 const Sidebar = () => {
 
+  const dispatch =  useDispatch()
   const navigate = useNavigate()
   const user = useSelector((store: any) => store.user)
 
   const fetchContent = async () => {
     if(user) return;
-    try{const content =  await axios.get(BACKEND_URL + "/user/content", {
+    try{
+      const content =  await axios.get(BACKEND_URL + "/user/content", {
       withCredentials: true
     })
+    dispatch(addContent(content?.data))
+
   }catch(err: any){
     console.log(err.response.data)
     if(err.status == 401){ 

@@ -5,6 +5,7 @@ import ModalComponent from "../component/ModalComponent"
 import Sidebar from "../component/Sidebar"
 import AddIcons from "../icon/icons"
 import { ShareIcon } from "../icon/icons"
+import Content from "../component/Content"
 
 function DashBoard() {
 
@@ -35,10 +36,7 @@ function DashBoard() {
 
 
       <div className="flex gap-2 flex-wrap">
-
-        <Card title="Random shit" link="https://www.youtube.com/embed?v=uE925hp9KDk" type="youtube"/>
-
-        <Card title="tweet" link="https://twitter.com/Hartdrawss/status/1959577095236960282" type="tweet"/>
+        <Content />
       </div>
       </div>
     </div>

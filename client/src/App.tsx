@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import DashBoard from "./pages/DashBoard"
 import Login from "./component/Login"
 import { Provider } from "react-redux"

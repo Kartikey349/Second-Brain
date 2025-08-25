@@ -19,13 +19,17 @@ const Login = () => {
         const username = usernameRef?.current?.value
         const password = passwordRef?.current?.value
 
-        try{const userSignup = await axios.post(BACKEND_URL + "/user/signup", {
+        try{
+            const userSignup = await axios.post(BACKEND_URL + "/user/signup", {
             username,
             password
         }, {
             withCredentials: true
         })
         console.log(userSignup)
+        if(userSignup){
+            setIsLogin(true)
+        }
 
     }catch(err: any){
         console.log(err.response.data)
