@@ -1,7 +1,7 @@
 import express, {Request, Response} from "express";
 import User from "../models/user";
 import jwt from 'jsonwebtoken'
-import userAuth from "../middleware.ts/userAuth";
+import userAuth from "../middleware/userAuth";
 import Content, { Link } from "../models/content";
 const userRouter = express.Router()
 
@@ -75,7 +75,7 @@ userRouter.post("/login", async (req,res) => {
             res.cookie("token", token)
         }
 
-        res.send("Login successfull")
+        res.send(user)
     }catch(err){
         res.send("ERROR: "+ (err as Error).message)
     }
@@ -110,13 +110,39 @@ userRouter.post("/content", userAuth ,async(req: Request, res: Response)=> {
 
 userRouter.get("/content", userAuth, async(req: Request, res: Response)=> {
     const id = req.user;
-    const content = await Content.find({userId: id});
-
-    if(content.length == 0){
-        res.send("no content")
-        return
+    
+    try{
+        const content = await Content.find({userId: id});
+        
+        //major fix -- if content is empty mongoose will return empty array
+        res.send(content)
+    }catch(err: any){
+        res.status(500).send(err.message)
     }
-    res.send(content)
+})
+
+userRouter.delete("/content",  userAuth, async(req: Request, res: Response) => {
+    const userId = req.user;
+    const id = req.body.id
+
+    try{
+        const deleted = await Content.findOneAndDelete({
+            _id: id,
+            userId
+        })
+
+        if(!deleted){
+            return res.status(404).send({ message: "Content not found or not authorized" });
+        }
+
+        const content = await Content.find({
+            userId
+        })
+
+        res.send(content)
+    }catch(err: any){
+        res.status(500).send("ERROR: "+ err.message)
+    }
 })
 
 
