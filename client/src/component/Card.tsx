@@ -1,12 +1,39 @@
+import axios from "axios";
+import DeleteIcon from "../icon/DeleteIcon";
 import AddIcons, { ShareIcon } from "../icon/icons";
+import { BACKEND_URL } from "../config";
+import { useDispatch } from "react-redux";
+import { removeContent } from "../utils/contentSlice";
 
 interface CardProps{
     type: "youtube" | "tweet",
     title: string,
     link: string,
+    id: any
 }
 
+
 const Card = (props: CardProps) => {
+
+    const dispatch = useDispatch();
+
+    const deleteHandler = async(id: any) => {
+        try{
+            const confirmed = window.confirm("Do you want to delete this memory??")
+
+            if(!confirmed) return;
+
+            const res = await axios.delete(BACKEND_URL + "/user/content", {
+            data: { id },
+            withCredentials: true,
+        })
+            dispatch(removeContent(id))
+        }catch(err: any){
+             console.error(err.response?.data || err.message);
+        }
+    }
+
+
   return (
     <div className="bg-white rounded-md border-gray-200 border w-76 p-4 mt-4 min-h-45">
         <div className="flex justify-between items-center">
@@ -14,9 +41,11 @@ const Card = (props: CardProps) => {
                 <AddIcons size="sm"/>
                 <p className="font-semibold text-black">{props.title}</p>
             </div>
-            <div className="flex gap-2 text-gray-500">
+            <div className="flex gap-2 text-gray-500 items-center">
                 <ShareIcon size="sm" />
-                <ShareIcon size="sm" />
+                <div className="cursor-pointer" onClick={() => deleteHandler(props.id)}>
+                    <DeleteIcon />
+                </div>
             </div>
         </div>
 

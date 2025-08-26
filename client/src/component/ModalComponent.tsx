@@ -31,6 +31,7 @@ const ModalComponent = ({open, close}) => {
       
       dispatch(addContent([...allContent, content.data]))
       alert("Succesfully saved")
+      close(false)
     }catch(err: any){
       console.log(err.response.data)
     }

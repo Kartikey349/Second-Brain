@@ -12,7 +12,6 @@ const Sidebar = () => {
 
   const dispatch =  useDispatch()
   const navigate = useNavigate()
-  const content = useSelector((store: any) => store.content.filtered)
 
 
   const fetchContent = async () => {
@@ -33,9 +32,6 @@ const Sidebar = () => {
   useEffect(() => {
     fetchContent()
   }, [])
-
-
-if(!content || content.length === 0) return null;
 
 
 
