@@ -6,16 +6,16 @@ import axios from "axios"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { addContent } from "../utils/contentSlice"
+import { addContent, filterContent } from "../utils/contentSlice"
 
 const Sidebar = () => {
 
   const dispatch =  useDispatch()
   const navigate = useNavigate()
-  const user = useSelector((store: any) => store.user)
+  const content = useSelector((store: any) => store.content.filtered)
+
 
   const fetchContent = async () => {
-    if(user) return;
     try{
       const content =  await axios.get(BACKEND_URL + "/user/content", {
       withCredentials: true
@@ -23,8 +23,8 @@ const Sidebar = () => {
     dispatch(addContent(content?.data))
 
   }catch(err: any){
-    console.log(err.response.data)
-    if(err.status == 401){ 
+    console.log(err.response?.data || err.message)
+    if(err.response?.status == 401){ 
       navigate("/login")
     }
   }
@@ -34,6 +34,11 @@ const Sidebar = () => {
     fetchContent()
   }, [])
 
+
+if(!content || content.length === 0) return null;
+
+
+
   return (
     <div className="w-80 p-2 pl-4 border-r-1 border-gray-400">
       <div className="flex items-center gap-2">
@@ -41,11 +46,18 @@ const Sidebar = () => {
         <h1 className="font-bold text-xl">Second Brain</h1>
       </div>
         <div className="mt-4 flex flex-col gap-2">
-          <div className="flex text-gray-600 items-center gap-1 hover:bg-gray-200 px-2 p-1 rounded-md transition duration-200">
+
+          <div className="flex text-gray-600 items-center gap-1 hover:bg-gray-200 px-2 p-1 rounded-md transition duration-200" onClick={() => dispatch(filterContent("all"))}>
+            <p>All</p>
+          </div>
+
+          <div className="flex text-gray-600 items-center gap-1 hover:bg-gray-200 px-2 p-1 rounded-md transition duration-200" onClick={() => dispatch(filterContent("tweet"))}>
             <TwitterIcon />
             <p>Tweets</p>
           </div>
-          <div className="flex text-gray-600 items-center gap-1 hover:bg-gray-200 px-2 p-1 rounded-md transition duration-200">
+          <div className="flex text-gray-600 items-center gap-1 hover:bg-gray-200 px-2 p-1 rounded-md transition duration-200"
+          onClick={() => dispatch(filterContent("youtube"))}
+          >
             <YoutubeIcon />
             <p>Youtube</p>
           </div>

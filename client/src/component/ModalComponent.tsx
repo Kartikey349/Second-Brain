@@ -3,6 +3,8 @@ import CrossIcon from "../icon/CrossIcon"
 import Button from "./Button"
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useDispatch, useSelector } from "react-redux";
+import { addContent } from "../utils/contentSlice";
 
 const ModalComponent = ({open, close}) => {
 
@@ -10,7 +12,10 @@ const ModalComponent = ({open, close}) => {
   const linkRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  const addContent = async() => {
+  const dispatch = useDispatch()
+  const allContent = useSelector((store: any) => store.content.all)
+
+  const addContentHandler = async() => {
     const type = typeRef?.current?.value;
     const title = titleRef?.current?.value;
     const link = linkRef?.current?.value;
@@ -23,6 +28,8 @@ const ModalComponent = ({open, close}) => {
       }, {
         withCredentials: true
       })
+      
+      dispatch(addContent([...allContent, content.data]))
       alert("Succesfully saved")
     }catch(err: any){
       console.log(err.response.data)
@@ -52,7 +59,7 @@ if(open)
             <Input ref={linkRef} placeholder={"Link"} />
             <div className="mt-2 flex w-full justify-center"></div>
 
-          <div onClick={addContent}>
+          <div onClick={addContentHandler}>
             <Button variant="primary" size="md" text="Submit" />
           </div>
         </div>

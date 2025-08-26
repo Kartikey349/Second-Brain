@@ -2,9 +2,9 @@ import { useSelector } from "react-redux"
 import Card from "./Card";
 
 const Content = () => {
-    const content = useSelector((store: any) => store.content)
+    const content = useSelector((store: any) => store.content.filtered)
 
-    if(!content) return;
+    if(!content) return null;
 
     if(content.length === 0){
         return <div>No Content</div>

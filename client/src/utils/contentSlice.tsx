@@ -2,13 +2,24 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const contentSlice = createSlice({
     name: "content",
-    initialState: null,
+    initialState: {
+        all: [],
+        filtered: [],
+    },
     reducers:{
         addContent: (state, action) => {
-            return action.payload
+            state.all = action.payload
+            state.filtered = action.payload
+        },
+        filterContent: (state, action) => {
+            if(action.payload === "all"){
+                state.filtered = state.all
+            }else{
+                state.filtered = state.all.filter((item : any) => item.type === action.payload)
+            }
         }
     }
 })
 
-export const {addContent} = contentSlice.actions
+export const {addContent, filterContent} = contentSlice.actions
 export default contentSlice.reducer

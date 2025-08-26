@@ -1,6 +1,5 @@
 import { useState } from "react"
 import Button from "../component/Button"
-import Card from "../component/Card"
 import ModalComponent from "../component/ModalComponent"
 import Sidebar from "../component/Sidebar"
 import AddIcons from "../icon/icons"
