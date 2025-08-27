@@ -6,7 +6,12 @@ import { BACKEND_URL } from "../utils/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addContent } from "../utils/contentSlice";
 
-const ModalComponent = ({open, close}) => {
+interface ModalProps {
+  open: boolean;
+  close: (value: boolean) => void;
+}
+
+const ModalComponent = ({open, close} : ModalProps) => {
 
   const typeRef = useRef<any>(null);
   const linkRef = useRef<HTMLInputElement>(null);

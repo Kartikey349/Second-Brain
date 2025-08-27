@@ -6,10 +6,23 @@ import Card from "./Card";
 
 const SharedContent = () => {
 
-    const [content, setContent] = useState([])
+    interface Content {
+        _id: string;
+        type: string;
+        title: string;
+        link: string;
+        userId: UserId;
+    }
+
+    interface UserId{
+        username: string
+    }
+
+    const [content, setContent] = useState<Content[]>([])
     const [showExpired, setShowExpired] = useState(false)
 
     const {shareLink} = useParams();
+
 
     const fetchSharedContent = async() => {
         const res = await axios.get(BACKEND_URL + "/user/link/" + shareLink, {
@@ -35,6 +48,7 @@ const SharedContent = () => {
                 <h1 className="text-2xl text-gray-600">No Content Exists!!!</h1>
             </div>
     }
+
 
   return (
     <div>
