@@ -21,7 +21,7 @@ function DashBoard() {
       withCredentials: true
     })
 
-    alert(res.data.hash ? `${BACKEND_URL}/user/link/${res.data.hash}` : res.data)
+    alert(res.data.hash ? `http://localhost:5173/link/${res.data.hash}` : res.data)
   }
 
   return (
