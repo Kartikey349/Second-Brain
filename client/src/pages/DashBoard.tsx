@@ -6,7 +6,7 @@ import AddIcons from "../icon/icons"
 import { ShareIcon } from "../icon/icons"
 import Content from "../component/Content"
 import axios from "axios"
-import { BACKEND_URL } from "../utils/config"
+import { BACKEND_URL, FRONTEND_URL } from "../utils/config"
 
 function DashBoard() {
 
@@ -21,7 +21,7 @@ function DashBoard() {
       withCredentials: true
     })
 
-    alert(res.data.hash ? `http://localhost:5173/link/${res.data.hash}` : res.data)
+    alert(res.data.hash ? `${FRONTEND_URL}/link/${res.data.hash}` : res.data)
   }
 
   return (
