@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../utils/config"
 import axios from "axios"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { addContent, filterContent } from "../utils/contentSlice"
 
 const Sidebar = () => {
@@ -19,7 +19,6 @@ const Sidebar = () => {
       const content =  await axios.get(BACKEND_URL + "/user/content", {
       withCredentials: true
     })
-    console.log(content.data)
     dispatch(addContent(content?.data))
 
   }catch(err: any){
@@ -30,14 +29,9 @@ const Sidebar = () => {
   }
   }
 
-  const authUser = useSelector((state: any) => state.user);
-
   useEffect(() => {
-    if (!authUser) {
-      fetchContent();
-    }
-  }, [authUser]);
-
+    fetchContent()
+  }, [])
 
 
 

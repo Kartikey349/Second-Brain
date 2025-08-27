@@ -46,6 +46,7 @@ const Login = () => {
         }, {
             withCredentials: true
         })
+        console.log(userLogin)
         dispatch(addUser(userLogin.data))
         navigate("/")
 
