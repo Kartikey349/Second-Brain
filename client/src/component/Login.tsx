@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 import Button from "./Button"
 import { Input } from "./ModalComponent"
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../utils/config";
 import { useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import { addUser } from "../utils/userSlice";

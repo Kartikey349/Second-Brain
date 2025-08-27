@@ -2,7 +2,7 @@ import { useRef } from "react"
 import CrossIcon from "../icon/CrossIcon"
 import Button from "./Button"
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../utils/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addContent } from "../utils/contentSlice";
 
@@ -40,7 +40,7 @@ const ModalComponent = ({open, close}) => {
 if(open)
   return (
     <div className="w-screen h-screen fixed left-0 bottom-0 bg-black/60 flex justify-center items-center">
-        <div className="w-5/12 bg-black/80 h-70 flex flex-col p-4 rounded-lg">
+        <div className="w-8/12 sm:w-5/12 bg-black/80 h-70 flex flex-col p-4 rounded-lg">
             <div className="w-full flex justify-end" onClick={() => close(false)}>
                 <CrossIcon />
             </div>

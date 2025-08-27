@@ -5,7 +5,9 @@ const Content = () => {
     const content = useSelector((store: any) => store.content.filtered)
 
   if (content.length === 0) {
-    return <div>No Content</div>
+    return <div className="flex m-auto pt-10 text-gray-600">
+      <p>No Content!!!</p>
+    </div>
   }
 
   return (

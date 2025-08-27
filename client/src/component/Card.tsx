@@ -1,9 +1,10 @@
 import axios from "axios";
 import DeleteIcon from "../icon/DeleteIcon";
-import AddIcons, { ShareIcon } from "../icon/icons";
-import { BACKEND_URL } from "../config";
+import { ShareIcon } from "../icon/icons";
+import { BACKEND_URL } from "../utils/config";
 import { useDispatch } from "react-redux";
 import { removeContent } from "../utils/contentSlice";
+import Noteicon from "../icon/Noteicon";
 
 interface CardProps{
     type: "youtube" | "tweet",
@@ -38,7 +39,7 @@ const Card = (props: CardProps) => {
     <div className="bg-white rounded-md border-gray-200 border w-76 p-4 mt-4 min-h-45">
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-2 text-gray-500">
-                <AddIcons size="sm"/>
+                <Noteicon />
                 <p className="font-semibold text-black">{props.title}</p>
             </div>
             <div className="flex gap-2 text-gray-500 items-center">
