@@ -156,7 +156,10 @@ userRouter.post("/link", userAuth, async(req: Request, res: Response) => {
             userId: req.user
         })
         if(existing){
-            res.send("Sharing is already on")
+            res.json({
+                message: "sharing is already on",
+                hash: existing.hash
+            })
             return;
         }
 
