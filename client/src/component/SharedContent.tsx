@@ -57,7 +57,7 @@ const SharedContent = () => {
             ">{content[0]?.userId?.username}</span></h1>
         </div>
 
-        <div className="flex flex-wrap gap-4 p-4">
+        <div className="flex flex-wrap gap-4 p-4 justify-center">
             {content.map((item: any) => <div key={item._id}><Card type={item.type} title={item.title} link={item.link} id={item._id} /></div> )}
             
         </div>

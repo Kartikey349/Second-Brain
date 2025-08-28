@@ -9,6 +9,7 @@ import { addUser } from "../utils/userSlice";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [error, setError] = useState("")
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const usernameRef = useRef<HTMLInputElement>(null)
@@ -32,7 +33,7 @@ const Login = () => {
         }
 
     }catch(err: any){
-        console.log(err.response.data)
+        setError(err.response.data)
     }
     }
 
@@ -40,16 +41,18 @@ const Login = () => {
         const username = usernameRef?.current?.value
         const password = passwordRef?.current?.value
 
-        const userLogin = await axios.post(BACKEND_URL + "/user/login", {
+        try{
+            const userLogin = await axios.post(BACKEND_URL + "/user/login", {
             username,
             password
         }, {
             withCredentials: true
         })
-        console.log(userLogin)
-        dispatch(addUser(userLogin.data))
-        navigate("/")
-
+            dispatch(addUser(userLogin.data))
+            navigate("/")
+        }catch(err: any){
+            setError(err.response.data)
+        }
     }
 
   return (
@@ -60,13 +63,21 @@ const Login = () => {
                 <Input ref={usernameRef} placeholder="Username" />
                 <Input ref={passwordRef} placeholder="Password" />
             </div>
+
+            <div className="flex w-full pl-4">
+                <p className="text-red-600">{error}</p>
+            </div>
+
             <div className="mt-2 flex w-full justify-center"></div>
 
             <div onClick={isLogin ? login : signup}>   
                 <Button variant="primary" size="md" text={isLogin ? "Login" : "Signup"}/>
             </div>
 
-            <p className="text-gray-600 mt-2">{isLogin ? "New Here?" :"Already have account?"} <span className=" text-black cursor-pointer" onClick={() => setIsLogin(!isLogin)}>
+
+            <p className="text-gray-600 mt-2 w-full ml-8">{isLogin ? "New Here?" :"Already have account?"} <span className=" text-black cursor-pointer" onClick={() => {setIsLogin(!isLogin)
+                setError("")}
+            }>
                 {isLogin? "Signup now" :"Login Now"}</span></p>
         </div>
     </div>
